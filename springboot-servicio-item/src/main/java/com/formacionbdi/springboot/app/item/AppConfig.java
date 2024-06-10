@@ -25,10 +25,10 @@ public class AppConfig {
 	@Bean
 	public Customizer<Resilience4JCircuitBreakerFactory> defaultCustomizer() {
 		return factory -> factory.configureDefault(id -> {
-			return new Resilience4JConfigBuilder(id)
-					.circuitBreakerConfig(CircuitBreakerConfig.custom().slidingWindowSize(10).failureRateThreshold(50)
-							.waitDurationInOpenState(Duration.ofSeconds(10L)).build())
-					.timeLimiterConfig(TimeLimiterConfig.ofDefaults()).build();
+			return new Resilience4JConfigBuilder(id).circuitBreakerConfig(CircuitBreakerConfig.custom()
+					.slidingWindowSize(10).failureRateThreshold(50).waitDurationInOpenState(Duration.ofSeconds(10L))
+					.permittedNumberOfCallsInHalfOpenState(5).build()).timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2L)).build())
+					.build();
 		});
 	}
 
